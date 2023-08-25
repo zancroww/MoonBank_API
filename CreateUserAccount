@@ -11,7 +11,7 @@ def get_bank_accounts(user_account_json):
     user_ID = ""
     last_name = ""
     first_name = ""
-    DoB = ""
+    DoB = ""    
     email = ""
     phone_number = ""
     ni_number = ""
