@@ -1,8 +1,9 @@
+CREATE DATABASE MoonBankDB2;
 CREATE TABLE UserAccount(
-	UserID		    int		    NOT NULL	UNIQUE	AUTO_INCREMENT, -- (((Primary Key)))
+	UserID		    int		NOT NULL	UNIQUE	AUTO_INCREMENT, -- (((Primary Key)))
 	LastName	    CHAR(255)	NOT NULL,
 	FirstName 	    CHAR(255)	NOT NULL,
-	DoB		        date		NOT NULL,
+	DoB		    date	NOT NULL,
 	Email		    CHAR(255)	NOT NULL    UNIQUE,
 	PhoneNumber	    CHAR(255)	NOT NULL    UNIQUE,
 	NINumber	    CHAR(255)	NOT NULL,       
@@ -10,7 +11,7 @@ CREATE TABLE UserAccount(
 	Postcode 	    CHAR(255)   NOT NULL,
 	Password	    CHAR(255)   NOT NULL,
     
-    PRIMARY KEY (UserID)
+    	PRIMARY KEY (UserID)
 	
 	
 );
@@ -19,69 +20,69 @@ CREATE TABLE BankAccount(
 	UserID			int, 	    -- (((Foreign Key)))
 	AccountID		int     NOT NULL	UNIQUE		AUTO_INCREMENT,       -- (((Primary Key)))
 	CreditScore		int,
-    PRIMARY KEY (AccountID),
-    FOREIGN KEY (UserID) REFERENCES UserAccount(UserID)
+    	PRIMARY KEY (AccountID),
+    	FOREIGN KEY (UserID) REFERENCES UserAccount(UserID)
 	
 );
 
 CREATE TABLE StandardCurrentAccount(
-	AccountID		int			NOT NULL,
-    AccountNumber	int			NOT NULL UNIQUE,
-    SortCode		int			NOT NULL,
-    Balance			float		NOT NULL, 
-    InterestRate 	float		NOT NULL,
-    Overdraft		BOOLEAN		NOT NULL,
-    OverdraftLimit 	float,
+	AccountID		int		NOT NULL,
+    	AccountNumber		int		NOT NULL UNIQUE,
+    	SortCode		int		NOT NULL,
+    	Balance			float		NOT NULL, 
+    	InterestRate 		float		NOT NULL,
+    	Overdraft		BOOLEAN		NOT NULL,
+    	OverdraftLimit 		float,
     
-    PRIMARY KEY (AccountNumber),
-    FOREIGN KEY (AccountID) REFERENCES BankAccount(AccountID),
-    CHECK (OverdraftLimit>=0)
+    	PRIMARY KEY (AccountNumber),
+    	FOREIGN KEY (AccountID) REFERENCES BankAccount(AccountID),
+    	CHECK (OverdraftLimit>=0)
     
     
 );
 
 CREATE TABLE BasicCurrentAccount(
 	AccountID		int,
-    AccountNumber	int			NOT NULL	UNIQUE,
-    SortCode		int			NOT NULL,
-    Balance			float		NOT NULL, 
-    InterestRate 	float		NOT NULL,
+    	AccountNumber		int		NOT NULL	UNIQUE,
+    	SortCode		int		NOT NULL,
+    	Balance			float		NOT NULL, 
+    	InterestRate 		float		NOT NULL,
     
-    PRIMARY KEY (AccountNumber),
-    FOREIGN KEY (AccountID) REFERENCES BankAccount(AccountID)
+    	PRIMARY KEY (AccountNumber),
+    	FOREIGN KEY (AccountID) REFERENCES BankAccount(AccountID)
     
     
 );
 
 CREATE TABLE PackagedCurrentAccount(
 	AccountID		int,
-    AccountNumber	int			NOT NULL	UNIQUE,
-    SortCode		int			NOT NULL,
-    Balance			float		NOT NULL, 
-    InterestRate 	float		NOT NULL,
-    Overdraft		BOOLEAN		NOT NULL,
-    OverdraftLimit 	float,
+    	AccountNumber		int		NOT NULL	UNIQUE,
+    	SortCode		int		NOT NULL,
+    	Balance			float		NOT NULL, 
+    	InterestRate 		float		NOT NULL,
+    	Overdraft		BOOLEAN		NOT NULL,
+    	OverdraftLimit 		float,
     
-    PRIMARY KEY (AccountNumber),
-    FOREIGN KEY (AccountID) REFERENCES BankAccount(AccountID),
-    CHECK (OverdraftLimit>=0)
+    	PRIMARY KEY (AccountNumber),
+    	FOREIGN KEY (AccountID) REFERENCES BankAccount(AccountID),
+    	CHECK (OverdraftLimit>=0)
     
     
 );
 
 CREATE TABLE JointCurrentAccount(
 	AccountID1		int,
-    AccountID2		int,
-	AccountNumber	int			NOT NULL	UNIQUE,
+    	AccountID2		int,
+	AccountNumber		int		NOT NULL	UNIQUE,
 	SortCode		int 		NOT NULL,
 	Balance			float		NOT NULL, 
-	InterestRate 	float		NOT NULL,
+	InterestRate 		float		NOT NULL,
 	Overdraft		BOOLEAN		NOT NULL,
-	OverdraftLimit 	float,
+	OverdraftLimit 		float,
      
 	PRIMARY KEY (AccountNumber),
 	FOREIGN KEY (AccountID1) REFERENCES BankAccount(AccountID),
-    FOREIGN KEY (AccountID2) REFERENCES BankAccount(AccountID),
+	FOREIGN KEY (AccountID2) REFERENCES BankAccount(AccountID),
 	CHECK (OverdraftLimit>=0)
      
      
@@ -89,109 +90,109 @@ CREATE TABLE JointCurrentAccount(
     
 CREATE TABLE StudentBankAccount(
 	AccountID		int,
-    AccountNumber	int			NOT NULL	UNIQUE,
-    SortCode		int			NOT NULL,
-    Balance			float		NOT NULL, 
-    InterestRate 	float		NOT NULL,
-    Overdraft		BOOLEAN		NOT NULL,
-    OverdraftLimit 	float,
+    	AccountNumber		int		NOT NULL	UNIQUE,
+    	SortCode		int		NOT NULL,
+    	Balance			float		NOT NULL, 
+    	InterestRate 		float		NOT NULL,
+    	Overdraft		BOOLEAN		NOT NULL,
+    	OverdraftLimit 		float,
     
-    PRIMARY KEY (AccountNumber),
-    FOREIGN KEY (AccountID) REFERENCES BankAccount(AccountID),
-    CHECK (OverdraftLimit>=0)
+    	PRIMARY KEY (AccountNumber),
+    	FOREIGN KEY (AccountID) REFERENCES BankAccount(AccountID),
+    	CHECK (OverdraftLimit>=0)
     
     
 );
 
 CREATE TABLE GraduateBankAccount (
-    AccountID 		int,
-    AccountNumber 	int 	NOT NULL	UNIQUE,
-    SortCode 		int 	NOT NULL,
-    Balance 		FLOAT 	NOT NULL,
-    InterestRate 	FLOAT 	NOT NULL,
-    Overdraft 		BOOLEAN NOT NULL,
-    OverdraftLimit 	FLOAT,
-    DateStarted 	DATE,   
-    PRIMARY KEY (AccountNumber),
-    FOREIGN KEY (AccountID)
+    	AccountID 		int,
+    	AccountNumber 		int 	NOT NULL	UNIQUE,
+    	SortCode 		int 	NOT NULL,
+    	Balance 		FLOAT 	NOT NULL,
+    	InterestRate 		FLOAT 	NOT NULL,
+    	Overdraft 		BOOLEAN NOT NULL,
+    	OverdraftLimit 		FLOAT,
+    	DateStarted 		DATE,   
+    	PRIMARY KEY (AccountNumber),
+    	FOREIGN KEY (AccountID)
         REFERENCES BankAccount (AccountID),
-    CHECK (OverdraftLimit >= 0)
+    	CHECK (OverdraftLimit >= 0)
 );
 
 CREATE TABLE CreditAccount(
 	AccountID		int,
-    AccountNumber	int			NOT NULL	UNIQUE,
-    SortCode		int			NOT NULL,
-    Balance			float		NOT NULL, 
-    InterestRate 	float		NOT NULL,
-    Overdraft		BOOLEAN		NOT NULL,
-    OverdraftLimit 	float,
+    	AccountNumber		int		NOT NULL	UNIQUE,
+    	SortCode		int		NOT NULL,
+    	Balance			float		NOT NULL, 
+    	InterestRate 		float		NOT NULL,
+    	Overdraft		BOOLEAN		NOT NULL,
+    	OverdraftLimit 		float,
     
-    PRIMARY KEY (AccountNumber),
-    FOREIGN KEY (AccountID) REFERENCES BankAccount(AccountID),
-    CHECK (OverdraftLimit>=0)
+    	PRIMARY KEY (AccountNumber),
+    	FOREIGN KEY (AccountID) REFERENCES BankAccount(AccountID),
+    	CHECK (OverdraftLimit>=0)
     
     
 );
 
 CREATE TABLE RegularSavingsAccount(
 	AccountID		int,
-    AccountNumber	int			NOT NULL	UNIQUE,
-    SortCode		int			NOT NULL,
-    Balance			float		NOT NULL, 
-    InterestRate 	float		NOT NULL,
-    InterestLimit	float		NOT NULL,
+    	AccountNumber		int		NOT NULL	UNIQUE,
+    	SortCode		int		NOT NULL,
+    	Balance			float		NOT NULL, 
+    	InterestRate 		float		NOT NULL,
+    	InterestLimit		float		NOT NULL,
     
     
-    PRIMARY KEY (AccountNumber),
-    FOREIGN KEY (AccountID) REFERENCES BankAccount(AccountID),
+    	PRIMARY KEY (AccountNumber),
+    	FOREIGN KEY (AccountID) REFERENCES BankAccount(AccountID),
 	CHECK (InterestLimit>=0)
     
 );
 
 CREATE TABLE CashISAAccount(
 	AccountID		int,
-    AccountNumber	int			NOT NULL	UNIQUE,
-    SortCode		int			NOT NULL,
-    Balance			float		NOT NULL, 
-    InterestRate 	float		NOT NULL,
-    InterestLimit	float		NOT NULL,
+    	AccountNumber		int		NOT NULL	UNIQUE,
+    	SortCode		int		NOT NULL,
+    	Balance			float		NOT NULL, 
+    	InterestRate 		float		NOT NULL,
+    	InterestLimit		float		NOT NULL,
     
     
-    PRIMARY KEY (AccountNumber),
-    FOREIGN KEY (AccountID) REFERENCES BankAccount(AccountID),
+    	PRIMARY KEY (AccountNumber),
+    	FOREIGN KEY (AccountID) REFERENCES BankAccount(AccountID),
 	CHECK (InterestLimit>=0)
     
 );
 
 CREATE TABLE Childrens16PlusAccount(
 	AccountID		int,
-    AccountNumber	int			NOT NULL	UNIQUE,
-    SortCode		int			NOT NULL,
-    Balance			float		NOT NULL, 
-    InterestRate 	float		NOT NULL,
+    	AccountNumber		int		NOT NULL	UNIQUE,
+    	SortCode		int		NOT NULL,
+    	Balance			float		NOT NULL, 
+    	InterestRate 		float		NOT NULL,
     
     
-    PRIMARY KEY (AccountNumber),
-    FOREIGN KEY (AccountID) REFERENCES BankAccount(AccountID)
+    	PRIMARY KEY (AccountNumber),
+    	FOREIGN KEY (AccountID) REFERENCES BankAccount(AccountID)
 	
     
 );
 
 CREATE TABLE ChildrensMinus16Account(
 	AccountID		int,
-    ParentID		int,
-    AccountNumber	int			NOT NULL	UNIQUE,
-    SortCode		int			NOT NULL,
-    Balance			float		NOT NULL, 
-    InterestRate 	float		NOT NULL,
+    	ParentID		int,
+    	AccountNumber		int		NOT NULL	UNIQUE,
+    	SortCode		int		NOT NULL,
+    	Balance			float		NOT NULL, 
+    	InterestRate 		float		NOT NULL,
     
     
     
     
-    PRIMARY KEY (AccountNumber),
-    FOREIGN KEY (AccountID) REFERENCES BankAccount(AccountID),
-    FOREIGN KEY (ParentID) REFERENCES BankAccount(AccountID)
+    	PRIMARY KEY (AccountNumber),
+    	FOREIGN KEY (AccountID) REFERENCES BankAccount(AccountID),
+    	FOREIGN KEY (ParentID) REFERENCES BankAccount(AccountID)
 	
     
 );
@@ -234,7 +235,7 @@ VALUES ("Account", "Demo", "2000-01-01", "DemoAccount@demomail.com", "0110001101
 
 INSERT INTO BankAccount (UserID, CreditScore)
 VALUES ("1", 750),
-		("2", 740),
+	("2", 740),
         ("3", 800),
         ("4", 440),
         ("5", 537),
@@ -251,7 +252,7 @@ VALUES ("1", 750),
 INSERT INTO StandardCurrentAccount(AccountID, AccountNumber, 
 SortCode, Balance, InterestRate, Overdraft, OverdraftLimit)
 VALUES(1, 411102059, 501010, 1050, 1.0, 1, 500),
-		(9, 421102059, 501010, 1050, 1.0, 1, 500),
+	(9, 421102059, 501010, 1050, 1.0, 1, 500),
         (10, 431102059, 501010, 1050, 1.0, 1, 500),
         (12, 441102059, 501010, 1050, 1.0, 1, 500);
 
