@@ -1,9 +1,9 @@
 CREATE DATABASE MoonBankDB2;
 CREATE TABLE UserAccount(
-	UserID		    int		NOT NULL	UNIQUE	AUTO_INCREMENT, -- (((Primary Key)))
+	UserID		    int		    NOT NULL	UNIQUE	AUTO_INCREMENT, -- (((Primary Key)))
 	LastName	    CHAR(255)	NOT NULL,
 	FirstName 	    CHAR(255)	NOT NULL,
-	DoB		    date	NOT NULL,
+	DoB		        date		NOT NULL,
 	Email		    CHAR(255)	NOT NULL    UNIQUE,
 	PhoneNumber	    CHAR(255)	NOT NULL    UNIQUE,
 	NINumber	    CHAR(255)	NOT NULL,       
@@ -11,194 +11,57 @@ CREATE TABLE UserAccount(
 	Postcode 	    CHAR(255)   NOT NULL,
 	Password	    CHAR(255)   NOT NULL,
     
-    	PRIMARY KEY (UserID)
+    PRIMARY KEY (UserID)
 	
 	
 );
 
 CREATE TABLE BankAccount(
 	UserID			int, 	    -- (((Foreign Key)))
-	AccountID		int     NOT NULL	UNIQUE		AUTO_INCREMENT,       -- (((Primary Key)))
 	CreditScore		int,
-    	PRIMARY KEY (AccountID),
-    	FOREIGN KEY (UserID) REFERENCES UserAccount(UserID)
+    AccountNumber	int			NOT NULL UNIQUE,
+    SortCode		int			NOT NULL,
+    Balance			float, 
+    InterestRate 	float,
+    InterestLimit	float,
+    Overdraft		BOOLEAN,
+    OverdraftLimit 	float,
+    DateStarted 	DATE,   
+    ParentID		int,
+    UserID2		int,
+    AccountType		int,
+    -- Account Types: 	0: StandardCurrentAccount
+	-- .				1: BasicCurrentAccount
+    -- .				2: PackagedCurrentAccount
+    -- .				3: JointCurrentAccount
+    -- .				4: StudentBankAccount
+    -- .				5: GraduateBankAccount
+    -- .				6: CreditAccount
+    -- .				7: RegularSavingsAccount
+    -- .				8: CashISAAccount
+    -- .				9: Childrens16PlusAccount
+    -- .				10: ChildrensMinus16Account
+    
+    -- . 				Needed Columns
+    -- . 				0: AccountNumber, SortCode, Balance, InterestRate, Overdraft, OverdraftLimit
+    -- . 				1: AccountNumber, SortCode, Balance, InterestRate
+    -- . 				2: AccountNumber, SortCode, Balance, InterestRate, Overdraft, OverdraftLimit
+    -- . 				3: AccountNumber, SortCode, Balance, InterestRate, Overdraft, OverdraftLimit, UserID2
+    -- . 				4: AccountNumber, SortCode, Balance, InterestRate, Overdraft, OverdraftLimit
+    -- . 				5: AccountNumber, SortCode, Balance, InterestRate, Overdraft, OverdraftLimit, DateStarted
+    -- . 				6: AccountNumber, SortCode, Balance, InterestRate, Overdraft, OverdraftLimit
+    -- . 				7: AccountNumber, SortCode, Balance, InterestRate, InterestLimit
+    -- . 				8: AccountNumber, SortCode, Balance, InterestRate, InterestLimit
+    -- . 				9: AccountNumber, SortCode, Balance, InterestRate
+    -- . 				10: AccountNumber, SortCode, Balance, InterestRate, ParentID
+    
+    PRIMARY KEY (AccountNumber),
+    FOREIGN KEY (UserID) REFERENCES UserAccount(UserID),
+    FOREIGN KEY (ParentID) REFERENCES UserAccount(UserID)
 	
 );
 
-CREATE TABLE StandardCurrentAccount(
-	AccountID		int		NOT NULL,
-    	AccountNumber		int		NOT NULL UNIQUE,
-    	SortCode		int		NOT NULL,
-    	Balance			float		NOT NULL, 
-    	InterestRate 		float		NOT NULL,
-    	Overdraft		BOOLEAN		NOT NULL,
-    	OverdraftLimit 		float,
-    
-    	PRIMARY KEY (AccountNumber),
-    	FOREIGN KEY (AccountID) REFERENCES BankAccount(AccountID),
-    	CHECK (OverdraftLimit>=0)
-    
-    
-);
 
-CREATE TABLE BasicCurrentAccount(
-	AccountID		int,
-    	AccountNumber		int		NOT NULL	UNIQUE,
-    	SortCode		int		NOT NULL,
-    	Balance			float		NOT NULL, 
-    	InterestRate 		float		NOT NULL,
-    
-    	PRIMARY KEY (AccountNumber),
-    	FOREIGN KEY (AccountID) REFERENCES BankAccount(AccountID)
-    
-    
-);
-
-CREATE TABLE PackagedCurrentAccount(
-	AccountID		int,
-    	AccountNumber		int		NOT NULL	UNIQUE,
-    	SortCode		int		NOT NULL,
-    	Balance			float		NOT NULL, 
-    	InterestRate 		float		NOT NULL,
-    	Overdraft		BOOLEAN		NOT NULL,
-    	OverdraftLimit 		float,
-    
-    	PRIMARY KEY (AccountNumber),
-    	FOREIGN KEY (AccountID) REFERENCES BankAccount(AccountID),
-    	CHECK (OverdraftLimit>=0)
-    
-    
-);
-
-CREATE TABLE JointCurrentAccount(
-	AccountID1		int,
-    	AccountID2		int,
-	AccountNumber		int		NOT NULL	UNIQUE,
-	SortCode		int 		NOT NULL,
-	Balance			float		NOT NULL, 
-	InterestRate 		float		NOT NULL,
-	Overdraft		BOOLEAN		NOT NULL,
-	OverdraftLimit 		float,
-     
-	PRIMARY KEY (AccountNumber),
-	FOREIGN KEY (AccountID1) REFERENCES BankAccount(AccountID),
-	FOREIGN KEY (AccountID2) REFERENCES BankAccount(AccountID),
-	CHECK (OverdraftLimit>=0)
-     
-     
-);
-    
-CREATE TABLE StudentBankAccount(
-	AccountID		int,
-    	AccountNumber		int		NOT NULL	UNIQUE,
-    	SortCode		int		NOT NULL,
-    	Balance			float		NOT NULL, 
-    	InterestRate 		float		NOT NULL,
-    	Overdraft		BOOLEAN		NOT NULL,
-    	OverdraftLimit 		float,
-    
-    	PRIMARY KEY (AccountNumber),
-    	FOREIGN KEY (AccountID) REFERENCES BankAccount(AccountID),
-    	CHECK (OverdraftLimit>=0)
-    
-    
-);
-
-CREATE TABLE GraduateBankAccount (
-    	AccountID 		int,
-    	AccountNumber 		int 	NOT NULL	UNIQUE,
-    	SortCode 		int 	NOT NULL,
-    	Balance 		FLOAT 	NOT NULL,
-    	InterestRate 		FLOAT 	NOT NULL,
-    	Overdraft 		BOOLEAN NOT NULL,
-    	OverdraftLimit 		FLOAT,
-    	DateStarted 		DATE,   
-    	PRIMARY KEY (AccountNumber),
-    	FOREIGN KEY (AccountID)
-        REFERENCES BankAccount (AccountID),
-    	CHECK (OverdraftLimit >= 0)
-);
-
-CREATE TABLE CreditAccount(
-	AccountID		int,
-    	AccountNumber		int		NOT NULL	UNIQUE,
-    	SortCode		int		NOT NULL,
-    	Balance			float		NOT NULL, 
-    	InterestRate 		float		NOT NULL,
-    	Overdraft		BOOLEAN		NOT NULL,
-    	OverdraftLimit 		float,
-    
-    	PRIMARY KEY (AccountNumber),
-    	FOREIGN KEY (AccountID) REFERENCES BankAccount(AccountID),
-    	CHECK (OverdraftLimit>=0)
-    
-    
-);
-
-CREATE TABLE RegularSavingsAccount(
-	AccountID		int,
-    	AccountNumber		int		NOT NULL	UNIQUE,
-    	SortCode		int		NOT NULL,
-    	Balance			float		NOT NULL, 
-    	InterestRate 		float		NOT NULL,
-    	InterestLimit		float		NOT NULL,
-    
-    
-    	PRIMARY KEY (AccountNumber),
-    	FOREIGN KEY (AccountID) REFERENCES BankAccount(AccountID),
-	CHECK (InterestLimit>=0)
-    
-);
-
-CREATE TABLE CashISAAccount(
-	AccountID		int,
-    	AccountNumber		int		NOT NULL	UNIQUE,
-    	SortCode		int		NOT NULL,
-    	Balance			float		NOT NULL, 
-    	InterestRate 		float		NOT NULL,
-    	InterestLimit		float		NOT NULL,
-    
-    
-    	PRIMARY KEY (AccountNumber),
-    	FOREIGN KEY (AccountID) REFERENCES BankAccount(AccountID),
-	CHECK (InterestLimit>=0)
-    
-);
-
-CREATE TABLE Childrens16PlusAccount(
-	AccountID		int,
-    	AccountNumber		int		NOT NULL	UNIQUE,
-    	SortCode		int		NOT NULL,
-    	Balance			float		NOT NULL, 
-    	InterestRate 		float		NOT NULL,
-    
-    
-    	PRIMARY KEY (AccountNumber),
-    	FOREIGN KEY (AccountID) REFERENCES BankAccount(AccountID)
-	
-    
-);
-
-CREATE TABLE ChildrensMinus16Account(
-	AccountID		int,
-    	ParentID		int,
-    	AccountNumber		int		NOT NULL	UNIQUE,
-    	SortCode		int		NOT NULL,
-    	Balance			float		NOT NULL, 
-    	InterestRate 		float		NOT NULL,
-    
-    
-    
-    
-    	PRIMARY KEY (AccountNumber),
-    	FOREIGN KEY (AccountID) REFERENCES BankAccount(AccountID),
-    	FOREIGN KEY (ParentID) REFERENCES BankAccount(AccountID)
-	
-    
-);
-
-
-    
 
 -- maybe create some indexes for faster retrieval
 -- maybe some views, but not necessary
@@ -232,90 +95,52 @@ VALUES ("Account", "Demo", "2000-01-01", "DemoAccount@demomail.com", "0110001101
 "PP000000A", "5 Leaf Street", "HP0 0AA", "Dragonfruit1"),
 		("User", "Test", "2006-01-01", "TestUser@demomail.com", "011000110787", 
 "BB000000A", "10 Downing Street", "AA0 0AA", "Banana2");
-
-INSERT INTO BankAccount (UserID, CreditScore)
-VALUES ("1", 750),
-	("2", 740),
-        ("3", 800),
-        ("4", 440),
-        ("5", 537),
-        ("6", 673),
-        ("7", 721),
-        ("8", 702),
-        ("9", 540),
-        ("10", 632),
-        ("11", 733),
-        ("12", 412),
-        ("13", 500);
         
-        
-INSERT INTO StandardCurrentAccount(AccountID, AccountNumber, 
-SortCode, Balance, InterestRate, Overdraft, OverdraftLimit)
-VALUES(1, 411102059, 501010, 1050, 1.0, 1, 500),
-	(9, 421102059, 501010, 1050, 1.0, 1, 500),
-        (10, 431102059, 501010, 1050, 1.0, 1, 500),
-        (12, 441102059, 501010, 1050, 1.0, 1, 500);
+INSERT INTO BankAccount(AccountNumber, 
+SortCode, Balance, InterestRate, Overdraft, OverdraftLimit, UserID, CreditScore)
+VALUES(411102059, 501010, 1050, 1.0, 1, 500, 1, 750),
+		(421102059, 501010, 1050, 1.0, 1, 500, 9, 540),
+        (431102059, 501010, 1050, 1.0, 1, 500, 10, 632),
+        (441102059, 501010, 1050, 1.0, 1, 500, 12, 412);
 
-INSERT INTO BasicCurrentAccount(AccountID, AccountNumber, 
-SortCode, Balance, InterestRate)
-VALUES(3, 201102059, 501010, 1050, 1.0);
+INSERT INTO BankAccount(AccountNumber, 
+SortCode, Balance, InterestRate, UserID, CreditScore)
+VALUES(201102059, 501010, 1050, 1.0, 3, 800);
 
-INSERT INTO PackagedCurrentAccount(AccountID, AccountNumber, 
-SortCode, Balance, InterestRate, Overdraft, OverdraftLimit)
-VALUES(4, 301102059, 501010, 1050, 1.0, 1, 500);
-
-
-
-INSERT INTO JointCurrentAccount(AccountID1, AccountID2, AccountNumber, 
-SortCode, Balance, InterestRate, Overdraft, OverdraftLimit)
-VALUES(1, 2, 401102059, 501010, 1050, 1.0, 1, 500);
-
-INSERT INTO StudentBankAccount(AccountID, AccountNumber, 
-SortCode, Balance, InterestRate, Overdraft, OverdraftLimit)
-VALUES(5,501102059, 501010, 30054, 1.0, 1, 500);
-
-INSERT INTO GraduateBankAccount(AccountID, AccountNumber, 
-SortCode, Balance, InterestRate, Overdraft, OverdraftLimit, DateStarted)
-VALUES(6, 601102059, 501010, 6052, 1.0, 1, 500, "2022-10-01");
-
-INSERT INTO CreditAccount(AccountID, AccountNumber, 
-SortCode, Balance, InterestRate, Overdraft, OverdraftLimit)
-VALUES(7, 701102059, 501010, 550, 1.0, 1, 500);
-
-INSERT INTO RegularSavingsAccount(AccountID, AccountNumber, 
-SortCode, Balance, InterestRate, InterestLimit )
-VALUES(1, 801102059, 501010, 1050, 1.0, 1000);
-
-INSERT INTO CashISAAccount(AccountID, AccountNumber, 
-SortCode, Balance, InterestRate, InterestLimit )
-VALUES(8, 901102059, 501010, 1050, 1.0, 1000);
-
-INSERT INTO Childrens16PlusAccount(AccountID, AccountNumber, 
-SortCode, Balance, InterestRate)
-VALUES(13, 911102059, 501010, 1050, 1.0);
-
-INSERT INTO ChildrensMinus16Account(AccountID, ParentID, AccountNumber, 
-SortCode, Balance, InterestRate)
-VALUES(11, 4, 921102059, 501010, 1050, 1.0);
+INSERT INTO BankAccount(AccountNumber, 
+SortCode, Balance, InterestRate, Overdraft, OverdraftLimit, UserId, CreditScore)
+VALUES(301102059, 501010, 1050, 1.0, 1, 500, 4, 440);
 
 
 
+INSERT INTO BankAccount(UserID2, AccountNumber, 
+SortCode, Balance, InterestRate, Overdraft, OverdraftLimit, UserID, CreditScore)
+VALUES(2, 401102059, 501010, 1050, 1.0, 1, 500, 1, 750);
 
+INSERT INTO BankAccount(AccountNumber, 
+SortCode, Balance, InterestRate, Overdraft, OverdraftLimit, UserID, CreditScore)
+VALUES(501102059, 501010, 30054, 1.0, 1, 500, 5, 537);
 
+INSERT INTO BankAccount(AccountNumber, 
+SortCode, Balance, InterestRate, Overdraft, OverdraftLimit, DateStarted, UserID, CreditScore)
+VALUES(601102059, 501010, 6052, 1.0, 1, 500, "2022-10-01", 6, 673);
 
+INSERT INTO BankAccount(AccountNumber, 
+SortCode, Balance, InterestRate, Overdraft, OverdraftLimit, UserID, CreditScore)
+VALUES(701102059, 501010, 550, 1.0, 1, 500, 7, 721);
 
+INSERT INTO BankAccount(AccountNumber, 
+SortCode, Balance, InterestRate, InterestLimit, UserID, CreditScore)
+VALUES(801102059, 501010, 1050, 1.0, 1000, 1, 750);
 
+INSERT INTO BankAccount(AccountNumber, 
+SortCode, Balance, InterestRate, InterestLimit, UserID, CreditScore)
+VALUES(901102059, 501010, 1050, 1.0, 1000, 8, 702);
 
+INSERT INTO BankAccount(AccountNumber, 
+SortCode, Balance, InterestRate, UserID, CreditScore)
+VALUES(911102059, 501010, 1050, 1.0, 13, 500);
 
-
---  ADD ACC ID TO ALL INSERT INTOS
-
-
-
--- INSERT INTO BankAccount (AccountNumber, SortCode, Balance, Overdraft, OverdraftLimit, InterestRate, 
--- InterestLimit, JointOwner)
--- VALUES (10110111, 101010, 100000, 1, 2000, 
--- 0.5, 1000, 0);
-
--- Remove User Account
--- DELETE FROM UserAccount WHERE NINumber="etc";
+INSERT INTO BankAccount(ParentID, AccountNumber, 
+SortCode, Balance, InterestRate, UserID, CreditScore)
+VALUES(4, 921102059, 501010, 1050, 1.0, 11, 733);
