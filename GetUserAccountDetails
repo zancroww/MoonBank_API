@@ -1,0 +1,21 @@
+from db import open_connection, close_connection
+from flask import jsonify
+import json
+
+
+def get_bank_accounts():
+    conn = open_connection()
+    with conn.cursor() as cursor:
+        cursor.execute("SELECT UserID, LastName, FirstName, DATE_FORMAT(DoB, '%D %M %Y'), Email, PhoneNumber, NINumber, FirstLine, Postcode, Password FROM UserAccount")
+        row_headers = [x[0] for x in cursor.description]  
+        rv = cursor.fetchall()
+        json_data = []
+        for result in rv:
+            json_data.append(dict(zip(row_headers, result)))
+        print(json_data)
+        
+        print(json.dumps(json_data))
+
+    close_connection(conn)
+
+get_bank_accounts()
