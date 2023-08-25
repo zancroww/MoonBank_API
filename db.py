@@ -3,10 +3,10 @@ import os
 import pymysql
 from flask import jsonify
 
-db_user = os.environ.get('CLOUD_SQL_USERNAME')
-db_password = os.environ.get('CLOUD_SQL_PASSWORD')
-db_name = os.environ.get('CLOUD_SQL_DATABASE_NAME')
-db_connection_name = os.environ.get('CLOUD_SQL_CONNECTION_NAME')
+db_user = os.environ.get('root@localhost')
+db_password = os.environ.get('root')
+db_name = os.environ.get('MoonBaseDB')
+db_connection_name = os.environ.get('127.0.0.0')
 
 
 def open_connection():
@@ -27,11 +27,11 @@ def open_connection():
 def get_bank_accounts(userrequest):
     conn = open_connection()
     with conn.cursor() as cursor:
-        result = cursor.execute('SELECT * FROM bank_accounts WHERE userid_fk = (userid);' VALUES(%s)', (userequest["userid"]))))
-        songs = cursor.fetchall()
+        result = cursor.execute('SELECT * FROM bank_accounts WHERE userid_fk = (userid); VALUES(%s)', (userrequest["userid"]))
+        bank_accounts = cursor.fetchall()
         if result > 0:
-            got_songs = jsonify(songs)
+            got_bank_accounts = jsonify(bank_accounts)
         else:
-            got_songs = 'No Songs in DB'
+            got_bank_accounts = 'No Bank Accounts in DB'
     conn.close()
-    return got_songs
+    return got_bank_accounts
