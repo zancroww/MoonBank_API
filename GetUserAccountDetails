@@ -10,11 +10,18 @@ def get_bank_accounts():
         rv = cursor.fetchall()
         json_data = []
         for result in rv:
-            json_data.append(dict(zip(row_headers, result)))
-        print(json_data)
-        
-        print(json.dumps(json_data))
+            json_data.append(dict(zip(row_headers, result))) 
+
+    conn.commit()
+
+        # add try except       
 
     close_connection(conn)
 
-get_bank_accounts()
+    return {
+        'statusCode': 200,
+        'headers': {'Content-Type': 'application/json'},
+        'body': json.dumps(json_data)
+    }
+
+print(get_bank_accounts())
