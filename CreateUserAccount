@@ -6,7 +6,7 @@ from hashlib import sha512
 
 
 
-def get_bank_accounts(user_account_json):
+def create_bank_account(user_account_json):
     # decompose json into variables
     user_ID = ""
     last_name = ""
@@ -49,4 +49,3 @@ def hash_password(password, salt):
     hashed_password = sha512(password.strip() + salt).hexdigest()
     return hashed_password
 
-get_bank_accounts()
