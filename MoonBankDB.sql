@@ -97,50 +97,51 @@ VALUES ("Account", "Demo", "2000-01-01", "DemoAccount@demomail.com", "0110001101
 "BB000000A", "10 Downing Street", "AA0 0AA", "Banana2");
         
 INSERT INTO BankAccount(AccountNumber, 
-SortCode, Balance, InterestRate, Overdraft, OverdraftLimit, UserID, CreditScore)
-VALUES(411102059, 501010, 1050, 1.0, 1, 500, 1, 750),
-		(421102059, 501010, 1050, 1.0, 1, 500, 9, 540),
-        (431102059, 501010, 1050, 1.0, 1, 500, 10, 632),
-        (441102059, 501010, 1050, 1.0, 1, 500, 12, 412);
+SortCode, Balance, InterestRate, Overdraft, OverdraftLimit, UserID, CreditScore, AccountType)
+VALUES(411102059, 501010, 1050, 1.0, 1, 500, 1, 750, 0),
+		(421102059, 501010, 1050, 1.0, 1, 500, 9, 540, 0),
+        (431102059, 501010, 1050, 1.0, 1, 500, 10, 632, 0),
+        (441102059, 501010, 1050, 1.0, 1, 500, 12, 412, 0);
 
 INSERT INTO BankAccount(AccountNumber, 
-SortCode, Balance, InterestRate, UserID, CreditScore)
-VALUES(201102059, 501010, 1050, 1.0, 3, 800);
+SortCode, Balance, InterestRate, UserID, CreditScore, AccountType)
+VALUES(201102059, 501010, 1050, 1.0, 3, 800, 1);
 
 INSERT INTO BankAccount(AccountNumber, 
-SortCode, Balance, InterestRate, Overdraft, OverdraftLimit, UserId, CreditScore)
-VALUES(301102059, 501010, 1050, 1.0, 1, 500, 4, 440);
+SortCode, Balance, InterestRate, Overdraft, OverdraftLimit, UserId, CreditScore, AccountType)
+VALUES(301102059, 501010, 1050, 1.0, 1, 500, 4, 440, 2);
 
 
 
 INSERT INTO BankAccount(UserID2, AccountNumber, 
-SortCode, Balance, InterestRate, Overdraft, OverdraftLimit, UserID, CreditScore)
-VALUES(2, 401102059, 501010, 1050, 1.0, 1, 500, 1, 750);
+SortCode, Balance, InterestRate, Overdraft, OverdraftLimit, UserID, CreditScore, AccountType)
+VALUES(2, 401102059, 501010, 1050, 1.0, 1, 500, 1, 750, 3);
 
 INSERT INTO BankAccount(AccountNumber, 
-SortCode, Balance, InterestRate, Overdraft, OverdraftLimit, UserID, CreditScore)
-VALUES(501102059, 501010, 30054, 1.0, 1, 500, 5, 537);
+SortCode, Balance, InterestRate, Overdraft, OverdraftLimit, UserID, CreditScore, AccountType)
+VALUES(501102059, 501010, 30054, 1.0, 1, 500, 5, 537, 4);
 
 INSERT INTO BankAccount(AccountNumber, 
-SortCode, Balance, InterestRate, Overdraft, OverdraftLimit, DateStarted, UserID, CreditScore)
-VALUES(601102059, 501010, 6052, 1.0, 1, 500, "2022-10-01", 6, 673);
+SortCode, Balance, InterestRate, Overdraft, OverdraftLimit, DateStarted, UserID, CreditScore, AccountType)
+VALUES(601102059, 501010, 6052, 1.0, 1, 500, "2022-10-01", 6, 673, 5);
 
 INSERT INTO BankAccount(AccountNumber, 
-SortCode, Balance, InterestRate, Overdraft, OverdraftLimit, UserID, CreditScore)
-VALUES(701102059, 501010, 550, 1.0, 1, 500, 7, 721);
+SortCode, Balance, InterestRate, Overdraft, OverdraftLimit, UserID, CreditScore, AccountType)
+VALUES(701102059, 501010, 550, 1.0, 1, 500, 7, 721, 6);
 
 INSERT INTO BankAccount(AccountNumber, 
-SortCode, Balance, InterestRate, InterestLimit, UserID, CreditScore)
-VALUES(801102059, 501010, 1050, 1.0, 1000, 1, 750);
+SortCode, Balance, InterestRate, InterestLimit, UserID, CreditScore, AccountType)
+VALUES(801102059, 501010, 1050, 1.0, 1000, 1, 750, 7);
 
 INSERT INTO BankAccount(AccountNumber, 
-SortCode, Balance, InterestRate, InterestLimit, UserID, CreditScore)
-VALUES(901102059, 501010, 1050, 1.0, 1000, 8, 702);
+SortCode, Balance, InterestRate, InterestLimit, UserID, CreditScore, AccountType)
+VALUES(901102059, 501010, 1050, 1.0, 1000, 8, 702, 8);
 
 INSERT INTO BankAccount(AccountNumber, 
-SortCode, Balance, InterestRate, UserID, CreditScore)
-VALUES(911102059, 501010, 1050, 1.0, 13, 500);
+SortCode, Balance, InterestRate, UserID, CreditScore, AccountType)
+VALUES(911102059, 501010, 1050, 1.0, 13, 500, 9);
 
 INSERT INTO BankAccount(ParentID, AccountNumber, 
-SortCode, Balance, InterestRate, UserID, CreditScore)
-VALUES(4, 921102059, 501010, 1050, 1.0, 11, 733);
+SortCode, Balance, InterestRate, UserID, CreditScore, AccountType)
+VALUES(4, 921102059, 501010, 1050, 1.0, 11, 733, 10);
+
