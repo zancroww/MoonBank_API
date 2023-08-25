@@ -1,5 +1,4 @@
 from db import open_connection, close_connection
-from flask import jsonify
 import json
 
 
