@@ -1,0 +1,29 @@
+from db import open_connection, close_connection
+import json
+
+
+def delete_specific_user_account(userid):
+    conn = open_connection()
+    with conn.cursor() as cursor:
+        query = "DELETE FROM UserAccount WHERE UserID =%s"
+        tuple1 = userid
+        cursor.execute(query, tuple1)
+        print(f"User with {userid} has been deleted")
+            
+
+    conn.commit()
+
+        # add try except       
+
+    close_connection(conn)
+
+    return {
+        'statusCode': 200,
+        'headers': {'Content-Type': 'application/json'},
+        
+    }
+
+"""
+print(delete_specific_user_account("26"))
+print("\n \n \n \n ------------------------------------------------------------------------------ \n \n \n \n")
+"""

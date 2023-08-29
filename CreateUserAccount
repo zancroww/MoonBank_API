@@ -6,38 +6,36 @@ from hashlib import sha512
 
 
 
-def create_bank_account(user_account_json):
-    # decompose json into variables
-    user_ID = ""
-    last_name = ""
-    first_name = ""
-    DoB = ""    
-    email = ""
-    phone_number = ""
-    ni_number = ""
-    salt = generate_salt()
-    password = hash_password(password, salt)
+"""
+adds A USER WITH A SPECIFIC info
+"""
+def add_user(lastname,firstname,datestarted,email,phonenumber,ninumber,firstline,postcode,password,salt):
+    conn = open_connection()
+    with conn.cursor() as cursor:
+        query = "INSERT INTO UserAccount (LastName, FirstName, DoB, Email, PhoneNumber, NINumber, FirstLine, Postcode, Password, Salt) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        tuple1 = (lastname,firstname,datestarted,email,phonenumber,ninumber,firstline,postcode,password,salt)
+        cursor.execute(query, tuple1)
+        print(f"User {firstname} {lastname} has been created")
+            
 
-    salt_as_string = b64encode(salt).decode('utf-8')
+    conn.commit()
 
-    try:
-        conn = open_connection()
-        with conn.cursor() as cursor:
-            cursor.execute('INSERT INTO UserAccount (UserID, LastName, FirstName, DoB, Email, PhoneNumber, NINumber, \
-                        FirstLine, Postcode, Password, Salt) \
-                        VALUES (%s,%s,%s,%s,%s,%s,%s)',
-                        (user_ID, last_name, first_name, DoB, email, phone_number, ni_number, password, salt_as_string))
-            cursor.commit()
-    except pymysql.MySQLError as e:
-        return {
-            'statusCode': 404,
-            'headers': {'Content-Type': 'application/json'},
-            'body': json.dumps(e)
-        }
+        # add try except       
 
-    finally:
-        close_connection(conn)
+    close_connection(conn)
 
+    return {
+        'statusCode': 200,
+        'headers': {'Content-Type': 'application/json'},
+        
+    }
+"""
+print(add_user("Leeroy","Jenkins", "2000-01-01","c@gmail.com","02020","PG884848A","LOXL","OPKD DID", "password123","sha256"))
+print("\n \n \n \n ------------------------------------------------------------------------------ \n \n \n \n")
+"""
+
+
+""" to do: generate salt and hash password for security"""
 
 def generate_salt():
     salt = os.urandom(64)
