@@ -8,7 +8,7 @@ def open_connection():
         host='localhost',
         user='root', 
         password = "root", # hide password
-        db='moonbankdb2',
+        db='moonbank',
         )
     except pymysql.MySQLError as e:
         print(e)
