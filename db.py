@@ -7,11 +7,11 @@ def open_connection():
         conn = pymysql.connect(
         host='localhost',
         user='root', 
-        password = "root", # hide password
+        password = "root", # edit to import from google secrets!
         db='moonbank',
         )
     except pymysql.MySQLError as e:
-        print(e)
+        print(e) # What to do with error?
 
     return conn
 

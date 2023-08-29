@@ -1,4 +1,5 @@
-CREATE DATABASE MoonBankDB2;
+CREATE DATABASE MoonBankDB;
+USE MoonBankDB;
 CREATE TABLE UserAccount(
 	UserID		    int		    NOT NULL	UNIQUE	AUTO_INCREMENT, -- (((Primary Key)))
 	LastName	    CHAR(255)	NOT NULL,
@@ -6,7 +7,7 @@ CREATE TABLE UserAccount(
 	DoB		        date		NOT NULL,
 	Email		    CHAR(255)	NOT NULL    UNIQUE,
 	PhoneNumber	    CHAR(255)	NOT NULL    UNIQUE,
-	NINumber	    CHAR(255)	NOT NULL,       
+	NINumber	    CHAR(255),       
 	FirstLine 	    CHAR(255)   NOT NULL,
 	Postcode 	    CHAR(255)   NOT NULL,
 	Password	    CHAR(255)   NOT NULL,

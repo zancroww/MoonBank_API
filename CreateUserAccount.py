@@ -7,47 +7,36 @@ from hashlib import sha512
 
 
 def create_user_account(user_account_json):
-    user = json.loads(user_account_json)
-
-    last_name = user["LastName"]
-    first_name = user["FirstName"]
-    DoB = user["DoB"]    
-    first_line = user["FirstLine"]
-    postcode = user["Postcode"]
-    email = user["Email"]
-    phone_number = user["Phone"]
-    ni_number = user["NINumber"]
+    last_name = user_account_json["LastName"]
+    first_name = user_account_json["FirstName"]
+    DoB = user_account_json["DoB"]    
+    email = user_account_json["Email"]
+    phone_number = user_account_json["PhoneNumber"]
+    ni_number = user_account_json["NINumber"]
+    first_line = user_account_json["FirstLine"]
+    postcode = user_account_json["Postcode"]
     salt = generate_salt()
-    password = hash_password(user["Password"], salt)
+    password = hash_password(user_account_json["Password"], salt)
 
     salt_as_string = b64encode(salt).decode('utf-8')
 
-
+    # Check if user already exists?
     try:
         conn = open_connection()
         with conn.cursor() as cursor:
-            cursor.execute("INSERT INTO UserAccount (UserID, LastName, FirstName, DoB, Email, PhoneNumber, NINumber, \
+            cursor.execute("INSERT INTO UserAccount (LastName, FirstName, DoB, Email, PhoneNumber, NINumber, \
                         FirstLine, Postcode, Password, Salt) \
-                        VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
                         (last_name, first_name, DoB, email, phone_number, ni_number, first_line, postcode, password, salt_as_string))
-            cursor.commit()
+            conn.commit()
 
     except Exception as e:
-        return {
-            'statusCode': 404,
-            'headers': {'Content-Type': 'application/json'},
-            'body': json.dumps(f"Failed: {str(e)}")
-        }
+            return json.dumps("Server Error"), 500
 
-   # finally:
-        # close_connection(conn)
+    finally:
+        close_connection(conn)
 
-
-    return {
-            'statusCode': 200,
-            'headers': {'Content-Type': 'application/json'},
-            'body': json.dumps("Success")
-        }
+    return json.dumps("Success"), 200
 
 
 def generate_salt():
@@ -59,9 +48,3 @@ def hash_password(password, salt):
     password = bytes(password, 'utf-8')
     hashed_password = sha512(password.strip() + salt).hexdigest()
     return hashed_password
-
-
-print(create_user_account(json.dumps({"LastName": "Smith", "FirstName": "Roger", "DoB": "1999-09-22", "Email": "RogerSmith@demomail.com", "Phone": "01100011012", \
-                  "NINumber": "CC000000A", "FirstLine": "3 Red Street", "Postcode": "BB0 0AA", "Password": "Apple1"})))
-
-

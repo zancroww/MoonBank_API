@@ -5,28 +5,31 @@ import json
 """
 updates A USER WITH A SPECIFIC id, with specific info.
 """
-def update_user(lastname,firstname,datestarted,email,phonenumber,ninumber,firstline,postcode,password,salt,userid):
-    conn = open_connection()
-    with conn.cursor() as cursor:
-        query = "UPDATE UserAccount SET LastName=%s, FirstName=%s, DoB=%s, Email=%s, PhoneNumber=%s, NINumber=%s, FirstLine=%s, Postcode=%s, Password=%s, Salt=%s WHERE UserID = %s"
-        tuple1 = (lastname,firstname,datestarted,email,phonenumber,ninumber,firstline,postcode,password,salt,userid)
-        cursor.execute(query, tuple1)
-        print(f"User {firstname} {lastname} with id = {userid} has been updated")
-            
 
-    conn.commit()
+# Check user exists first?
+def update_user_account(userID, user_account_json):
+    last_name = user_account_json["LastName"]
+    first_name = user_account_json["FirstName"]
+    DoB = user_account_json["DoB"]    
+    email = user_account_json["Email"]
+    phone_number = user_account_json["PhoneNumber"]
+    ni_number = user_account_json["NINumber"]
+    first_line = user_account_json["FirstLine"]
+    postcode = user_account_json["Postcode"]
 
-        # add try except       
+    try:
+        conn = open_connection()
+        with conn.cursor() as cursor:
+            query = "UPDATE UserAccount SET LastName = %s, FirstName = %s, DoB = %s, Email = %s, PhoneNumber = %s, NINumber = %s, FirstLine = %s, Postcode = %s WHERE UserID = %s"
+            values = (last_name, first_name, DoB, email, phone_number, ni_number, first_line, postcode, userID)
+            cursor.execute(query, values)
+                
+        conn.commit()
 
-    close_connection(conn)
+    except Exception as e:
+        return json.dumps("Server Error"), 500
 
-    return {
-        'statusCode': 200,
-        'headers': {'Content-Type': 'application/json'},
-        
-    }
+    finally:
+        close_connection(conn)
 
-"""
-print(update_user("Billy","Boy", "2000-01-01","b@gmail.com","02020","PG884848A","LOXL","OPKD DID", "password123","sha256","27"))
-print("\n \n \n \n ------------------------------------------------------------------------------ \n \n \n \n")
-"""
+    return json.dumps("Success"), 200
