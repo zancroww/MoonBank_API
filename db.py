@@ -1,5 +1,7 @@
 import pymysql
 
+# "from mysql import connector" instead??
+
 def open_connection():
     try:
         conn = pymysql.connect(

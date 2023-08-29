@@ -1,4 +1,4 @@
-from db import open_connection, close_connection, pymysql
+from db import open_connection, close_connection
 import json
 import os
 from base64 import b64encode
@@ -28,7 +28,9 @@ def create_bank_account(user_account_json):
                         VALUES (%s,%s,%s,%s,%s,%s,%s)',
                         (user_ID, last_name, first_name, DoB, email, phone_number, ni_number, password, salt_as_string))
             cursor.commit()
-    except pymysql.MySQLError as e:
+
+
+    except Exception as e:
         return {
             'statusCode': 404,
             'headers': {'Content-Type': 'application/json'},
@@ -37,6 +39,13 @@ def create_bank_account(user_account_json):
 
     finally:
         close_connection(conn)
+
+
+    return {
+            'statusCode': 200,
+            'headers': {'Content-Type': 'application/json'},
+            'body': json.dumps("Success")
+        }
 
 
 def generate_salt():
