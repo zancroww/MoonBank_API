@@ -55,7 +55,10 @@ CREATE TABLE BankAccount(
     -- . 				8: InterestLimit
     -- . 				9: 
     -- . 				10: UserID2
-    
+
+    CHECK (AccountType = "StandardCurrentAccount" OR AccountType="BasicCurrentAccount" OR AccountType="PackagedCurrentAccount"
+    OR AccountType="JointCurrentAccount" OR AccountType="StudentBankAccount" OR AccountType="GraduateBankAccount" OR AccountType="CreditAccount"
+    OR AccountType="RegularSavingsAccount" OR AccountType="CashISAAccount" OR AccountType="Childrens16PlusAccount" OR AccountType="ChildrensMinus16Account"),
     PRIMARY KEY (AccountNumber),
     FOREIGN KEY (UserID) REFERENCES UserAccount(UserID),
     FOREIGN KEY (UserID2) REFERENCES UserAccount(UserID)
