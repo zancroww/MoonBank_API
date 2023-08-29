@@ -28,10 +28,9 @@ CREATE TABLE BankAccount(
     Overdraft		BOOLEAN,
     OverdraftLimit 	float,
     DateStarted 	DATE,   
-    ParentID		int,
     UserID2		int,
-    AccountType		int,
-    -- Account Types: 	0: StandardCurrentAccount
+    AccountType		CHAR(255),
+    -- Account Types: 			0: StandardCurrentAccount
 	-- .				1: BasicCurrentAccount
     -- .				2: PackagedCurrentAccount
     -- .				3: JointCurrentAccount
@@ -44,21 +43,25 @@ CREATE TABLE BankAccount(
     -- .				10: ChildrensMinus16Account
     
     -- . 				Needed Columns
-    -- . 				0: AccountNumber, SortCode, Balance, InterestRate, Overdraft, OverdraftLimit
-    -- . 				1: AccountNumber, SortCode, Balance, InterestRate
-    -- . 				2: AccountNumber, SortCode, Balance, InterestRate, Overdraft, OverdraftLimit
-    -- . 				3: AccountNumber, SortCode, Balance, InterestRate, Overdraft, OverdraftLimit, UserID2
-    -- . 				4: AccountNumber, SortCode, Balance, InterestRate, Overdraft, OverdraftLimit
-    -- . 				5: AccountNumber, SortCode, Balance, InterestRate, Overdraft, OverdraftLimit, DateStarted
-    -- . 				6: AccountNumber, SortCode, Balance, InterestRate, Overdraft, OverdraftLimit
-    -- . 				7: AccountNumber, SortCode, Balance, InterestRate, InterestLimit
-    -- . 				8: AccountNumber, SortCode, Balance, InterestRate, InterestLimit
-    -- . 				9: AccountNumber, SortCode, Balance, InterestRate
-    -- . 				10: AccountNumber, SortCode, Balance, InterestRate, ParentID
-    
+    -- .				All: AccountNumber, SortCode, Balance, InterestRate, AccountType, CreditScore
+    -- . 				0: Overdraft, OverdraftLimit
+    -- . 				1: 
+    -- . 				2: Overdraft, OverdraftLimit
+    -- . 				3: Overdraft, OverdraftLimit, UserID2
+    -- . 				4: Overdraft, OverdraftLimit
+    -- . 				5: Overdraft, OverdraftLimit, DateStarted
+    -- . 				6: Overdraft, OverdraftLimit
+    -- . 				7: InterestLimit
+    -- . 				8: InterestLimit
+    -- . 				9: 
+    -- . 				10: UserID2
+
+    CHECK (AccountType = "StandardCurrentAccount" OR AccountType="BasicCurrentAccount" OR AccountType="PackagedCurrentAccount"
+    OR AccountType="JointCurrentAccount" OR AccountType="StudentBankAccount" OR AccountType="GraduateBankAccount" OR AccountType="CreditAccount"
+    OR AccountType="RegularSavingsAccount" OR AccountType="CashISAAccount" OR AccountType="Childrens16PlusAccount" OR AccountType="ChildrensMinus16Account"),
     PRIMARY KEY (AccountNumber),
     FOREIGN KEY (UserID) REFERENCES UserAccount(UserID),
-    FOREIGN KEY (ParentID) REFERENCES UserAccount(UserID)
+    FOREIGN KEY (UserID2) REFERENCES UserAccount(UserID)
 	
 );
 
@@ -99,50 +102,50 @@ VALUES ("Account", "Demo", "2000-01-01", "DemoAccount@demomail.com", "0110001101
         
 INSERT INTO BankAccount(AccountNumber, 
 SortCode, Balance, InterestRate, Overdraft, OverdraftLimit, UserID, CreditScore, AccountType)
-VALUES(411102059, 501010, 1050, 1.0, 1, 500, 1, 750, 0),
-		(421102059, 501010, 1050, 1.0, 1, 500, 9, 540, 0),
-        (431102059, 501010, 1050, 1.0, 1, 500, 10, 632, 0),
-        (441102059, 501010, 1050, 1.0, 1, 500, 12, 412, 0);
+VALUES(411102059, 501010, 1050, 1.0, 1, 500, 1, 750, "StandardCurrentAccount"),
+		(421102059, 501010, 1050, 1.0, 1, 500, 9, 540, "StandardCurrentAccount"),
+        (431102059, 501010, 1050, 1.0, 1, 500, 10, 632, "StandardCurrentAccount"),
+        (441102059, 501010, 1050, 1.0, 1, 500, 12, 412, "StandardCurrentAccount");
 
 INSERT INTO BankAccount(AccountNumber, 
 SortCode, Balance, InterestRate, UserID, CreditScore, AccountType)
-VALUES(201102059, 501010, 1050, 1.0, 3, 800, 1);
+VALUES(201102059, 501010, 1050, 1.0, 3, 800, "BasicCurrentAccount");
 
 INSERT INTO BankAccount(AccountNumber, 
 SortCode, Balance, InterestRate, Overdraft, OverdraftLimit, UserId, CreditScore, AccountType)
-VALUES(301102059, 501010, 1050, 1.0, 1, 500, 4, 440, 2);
+VALUES(301102059, 501010, 1050, 1.0, 1, 500, 4, 440, "PackagedCurrentAccount");
 
 
 
 INSERT INTO BankAccount(UserID2, AccountNumber, 
 SortCode, Balance, InterestRate, Overdraft, OverdraftLimit, UserID, CreditScore, AccountType)
-VALUES(2, 401102059, 501010, 1050, 1.0, 1, 500, 1, 750, 3);
+VALUES(2, 401102059, 501010, 1050, 1.0, 1, 500, 1, 750, "JointCurrentAccount");
 
 INSERT INTO BankAccount(AccountNumber, 
 SortCode, Balance, InterestRate, Overdraft, OverdraftLimit, UserID, CreditScore, AccountType)
-VALUES(501102059, 501010, 30054, 1.0, 1, 500, 5, 537, 4);
+VALUES(501102059, 501010, 30054, 1.0, 1, 500, 5, 537, "StudentBankAccount");
 
 INSERT INTO BankAccount(AccountNumber, 
 SortCode, Balance, InterestRate, Overdraft, OverdraftLimit, DateStarted, UserID, CreditScore, AccountType)
-VALUES(601102059, 501010, 6052, 1.0, 1, 500, "2022-10-01", 6, 673, 5);
+VALUES(601102059, 501010, 6052, 1.0, 1, 500, "2022-10-01", 6, 673, "GraduateBankAccount");
 
 INSERT INTO BankAccount(AccountNumber, 
 SortCode, Balance, InterestRate, Overdraft, OverdraftLimit, UserID, CreditScore, AccountType)
-VALUES(701102059, 501010, 550, 1.0, 1, 500, 7, 721, 6);
+VALUES(701102059, 501010, 550, 1.0, 1, 500, 7, 721, "CreditAccount");
 
 INSERT INTO BankAccount(AccountNumber, 
 SortCode, Balance, InterestRate, InterestLimit, UserID, CreditScore, AccountType)
-VALUES(801102059, 501010, 1050, 1.0, 1000, 1, 750, 7);
+VALUES(801102059, 501010, 1050, 1.0, 1000, 1, 750, "RegularSavingsAccount");
 
 INSERT INTO BankAccount(AccountNumber, 
 SortCode, Balance, InterestRate, InterestLimit, UserID, CreditScore, AccountType)
-VALUES(901102059, 501010, 1050, 1.0, 1000, 8, 702, 8);
+VALUES(901102059, 501010, 1050, 1.0, 1000, 8, 702, "CashISAAccount");
 
 INSERT INTO BankAccount(AccountNumber, 
 SortCode, Balance, InterestRate, UserID, CreditScore, AccountType)
-VALUES(911102059, 501010, 1050, 1.0, 13, 500, 9);
+VALUES(911102059, 501010, 1050, 1.0, 13, 500, "Childrens16PlusAccount");
 
-INSERT INTO BankAccount(ParentID, AccountNumber, 
+INSERT INTO BankAccount(UserID2, AccountNumber, 
 SortCode, Balance, InterestRate, UserID, CreditScore, AccountType)
-VALUES(4, 921102059, 501010, 1050, 1.0, 11, 733, 10);
+VALUES(4, 921102059, 501010, 1050, 1.0, 11, 733, "ChildrensMinus16Account");
 
