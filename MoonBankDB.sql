@@ -28,7 +28,6 @@ CREATE TABLE BankAccount(
     Overdraft		BOOLEAN,
     OverdraftLimit 	float,
     DateStarted 	DATE,   
-    ParentID		int,
     UserID2		int,
     AccountType		int,
     -- Account Types: 	0: StandardCurrentAccount
@@ -54,11 +53,11 @@ CREATE TABLE BankAccount(
     -- . 				7: AccountNumber, SortCode, Balance, InterestRate, InterestLimit
     -- . 				8: AccountNumber, SortCode, Balance, InterestRate, InterestLimit
     -- . 				9: AccountNumber, SortCode, Balance, InterestRate
-    -- . 				10: AccountNumber, SortCode, Balance, InterestRate, ParentID
+    -- . 				10: AccountNumber, SortCode, Balance, InterestRate, UserID2
     
     PRIMARY KEY (AccountNumber),
     FOREIGN KEY (UserID) REFERENCES UserAccount(UserID),
-    FOREIGN KEY (ParentID) REFERENCES UserAccount(UserID)
+    FOREIGN KEY (UserID2) REFERENCES UserAccount(UserID)
 	
 );
 
@@ -142,7 +141,7 @@ INSERT INTO BankAccount(AccountNumber,
 SortCode, Balance, InterestRate, UserID, CreditScore, AccountType)
 VALUES(911102059, 501010, 1050, 1.0, 13, 500, 9);
 
-INSERT INTO BankAccount(ParentID, AccountNumber, 
+INSERT INTO BankAccount(UserID2, AccountNumber, 
 SortCode, Balance, InterestRate, UserID, CreditScore, AccountType)
 VALUES(4, 921102059, 501010, 1050, 1.0, 11, 733, 10);
 
