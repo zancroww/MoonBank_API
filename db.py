@@ -8,7 +8,7 @@ def open_connection():
         host='localhost',
         user='root', 
         password = "root", # edit to import from google secrets!
-        db='moonbank',
+        db='moonbankdb2',
         )
     except pymysql.MySQLError as e:
         print(e) # What to do with error?

@@ -4,6 +4,9 @@ from GetUserAccountDetails import get_user_accounts
 from CreateUserAccount import create_user_account 
 from DeleteUserAccount import delete_user_account
 from UpdateUserAccountDetails import update_user_account
+from GetBankAccountDetails import get_bank_account
+from GetSingleBankAccount import get_single_bank_account
+from DeleteBankAccount import delete_bank_account
 
 app = Flask(__name__)
 
@@ -38,6 +41,37 @@ def updateuseraccount(userID):
     if str.isdigit(userID):
         json_data = request.get_json()
         return make_response(update_user_account(userID, json_data))
+    
+    message = jsonify(message="Invalid parameters")
+    return make_response(message, 422)
+
+#---------------------------------------------------------------------------------------
+
+# Bank Account - related methods
+
+@app.route("/getbankaccount/<userID>", methods=["GET"])
+def getbankaccount(userID):
+    if str.isdigit(userID):
+        return make_response(get_bank_account(userID))
+    
+    message = jsonify(message="Invalid parameters")
+    return make_response(message, 422)
+
+
+#UPDATE BELOW SO THAT IT USES BOTH userID and AccountNumber TO GET THE SPECIFIC BANK ACCOUNT.
+
+@app.route("/getsinglebankaccount/<accountnumber>", methods=["GET"])
+def getsinglebankaccount(accountnumber):
+    if str.isdigit(accountnumber):
+        return make_response(get_single_bank_account(accountnumber))
+    
+    message = jsonify(message="Invalid parameters")
+    return make_response(message, 422)
+
+@app.route("/deletebankaccount/<accountnumber>", methods=["DELETE"])
+def deletebankaccount(accountnumber):
+    if str.isdigit(accountnumber):
+        return make_response(delete_bank_account(accountnumber))
     
     message = jsonify(message="Invalid parameters")
     return make_response(message, 422)
