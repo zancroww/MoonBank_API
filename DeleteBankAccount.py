@@ -1,6 +1,7 @@
 from db import open_connection, close_connection
 import json
 
+#NOT WORKING
 
 def delete_bank_account(accountnumber):
     try:

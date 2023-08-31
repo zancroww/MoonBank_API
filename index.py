@@ -7,6 +7,7 @@ from UpdateUserAccountDetails import update_user_account
 from GetBankAccountDetails import get_bank_account
 from GetSingleBankAccount import get_single_bank_account
 from DeleteBankAccount import delete_bank_account
+from UpdateBankAccountDetails import update_bank_account
 
 app = Flask(__name__)
 
@@ -72,6 +73,16 @@ def getsinglebankaccount(accountnumber):
 def deletebankaccount(accountnumber):
     if str.isdigit(accountnumber):
         return make_response(delete_bank_account(accountnumber))
+    
+    message = jsonify(message="Invalid parameters")
+    return make_response(message, 422)
+
+
+@app.route("/updatebankaccount/<accountnumber>", methods=["PUT"])
+def updatebankaccount(accountnumber):
+    if str.isdigit(accountnumber):
+        json_data = request.get_json()
+        return make_response(update_bank_account(accountnumber, json_data))
     
     message = jsonify(message="Invalid parameters")
     return make_response(message, 422)
