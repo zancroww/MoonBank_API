@@ -4,6 +4,7 @@ from GetUserAccountDetails import get_user_accounts
 from CreateUserAccount import create_user_account 
 from DeleteUserAccount import delete_user_account
 from UpdateUserAccountDetails import update_user_account
+from LoginUser import login_user
 
 app = Flask(__name__)
 
@@ -15,6 +16,13 @@ def getuseraccount(userID):
     
     message = jsonify(message="Invalid parameters")
     return make_response(message, 422)
+
+
+@app.route("/login", methods=["POST"])
+def login():
+    json_data = request.get_json()
+
+    return make_response(login_user(json_data))
 
 
 @app.route("/createuseraccount", methods=["POST"],)
