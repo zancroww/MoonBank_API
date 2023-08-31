@@ -30,8 +30,10 @@ def create_user_account(user_account_json):
                         (last_name, first_name, DoB, email, phone_number, ni_number, first_line, postcode, password, salt_as_string))
             conn.commit()
 
+        # Check for duplicate entry
+
     except Exception as e:
-            return json.dumps("Server Error"), 500
+            return json.dumps(f"Server Error {e}"), 500
 
     finally:
         close_connection(conn)

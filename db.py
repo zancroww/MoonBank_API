@@ -11,7 +11,7 @@ def open_connection():
         db='moonbankdb2',
         )
     except pymysql.MySQLError as e:
-        print(e) # What to do with error?
+        return e # What to do with error?
 
     return conn
 
