@@ -8,7 +8,6 @@ from GetBankAccountDetails import get_bank_account
 from GetSingleBankAccount import get_single_bank_account
 from DeleteBankAccount import delete_bank_account
 from UpdateBankAccountDetails import update_bank_account
-from LoginUser import login_user
 
 app = Flask(__name__)
 
@@ -20,13 +19,6 @@ def getuseraccount(userID):
     
     message = jsonify(message="Invalid parameters")
     return make_response(message, 422)
-
-
-@app.route("/login", methods=["POST"])
-def login():
-    json_data = request.get_json()
-
-    return make_response(login_user(json_data))
 
 
 @app.route("/createuseraccount", methods=["POST"],)

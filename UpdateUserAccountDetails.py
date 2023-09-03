@@ -20,7 +20,7 @@ def update_user_account(userID, user_account_json):
     try:
         conn = open_connection()
         with conn.cursor() as cursor:
-            query = "UPDATE UserAccount SET LastName = %s, FirstName = %s, DoB = %s, Email = %s, PhoneNumber = %s, NINumber = %s, FirstLine = %s, Postcode = %s WHERE UserID = %s"
+            query = "UPDATE useraccount SET LastName = %s, FirstName = %s, DoB = %s, Email = %s, PhoneNumber = %s, NINumber = %s, FirstLine = %s, Postcode = %s WHERE UserID = %s"
             values = (last_name, first_name, DoB, email, phone_number, ni_number, first_line, postcode, userID)
             cursor.execute(query, values)
                 

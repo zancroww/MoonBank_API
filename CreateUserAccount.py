@@ -24,13 +24,13 @@ def create_user_account(user_account_json):
     try:
         conn = open_connection()
         with conn.cursor() as cursor:
-            cursor.execute("INSERT INTO UserAccount (LastName, FirstName, DoB, Email, PhoneNumber, NINumber, \
+            cursor.execute("INSERT INTO useraccount (LastName, FirstName, DoB, Email, PhoneNumber, NINumber, \
                         FirstLine, Postcode, Password, Salt) \
                         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
                         (last_name, first_name, DoB, email, phone_number, ni_number, first_line, postcode, password, salt_as_string))
-            conn.commit()
+        conn.commit()
 
-        # Check for duplicate entry
+        user_id = cursor.lastrowid
 
     except Exception as e:
             return json.dumps(f"Server Error {e}"), 500
@@ -38,7 +38,7 @@ def create_user_account(user_account_json):
     finally:
         close_connection(conn)
 
-    return json.dumps("Success"), 200
+    return json.dumps({"UserID": user_id}), 200
 
 
 def generate_salt():
