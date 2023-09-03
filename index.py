@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, make_response
+from firebase_admin import auth, credentials, initialize_app
 
 from GetUserAccountDetails import get_user_accounts
 from CreateUserAccount import create_user_account 
@@ -8,84 +9,133 @@ from GetBankAccountDetails import get_bank_account
 from GetSingleBankAccount import get_single_bank_account
 from DeleteBankAccount import delete_bank_account
 from UpdateBankAccountDetails import update_bank_account
+from CreateBankAccount import create_bank_account
 
 app = Flask(__name__)
 
+config = {
+    "apiKey": "AIzaSyBMS9kc-7-9S4plhipExzbFR2vvuKtJe5g",
+    "authDomain": "roi-team-cloud-9.firebaseapp.com",
+    "projectId": "roi-team-cloud-9",
+    "storageBucket": "roi-team-cloud-9.appspot.com",
+    "messagingSenderId": "1004071473802",
+    "appId": "1:1004071473802:web:29a79a83ceeded434f9373",
+    "databaseURL": "",
+}
 
-@app.route("/getuseraccount/<userID>", methods=["GET"])
-def getuseraccount(userID):
-    if str.isdigit(userID): 
-        return make_response(get_user_accounts(userID))
+cred = credentials.Certificate(r"C:\Users\evanh\Downloads\roi-team-cloud-9-firebase-adminsdk-90wsy-2009cb73b6.json")
+default_app = initialize_app(cred, options=config)
+
+
+def verify_token(request):
+    token = request.headers["Authorization"]
     
-    message = jsonify(message="Invalid parameters")
-    return make_response(message, 422)
+    if not token:
+        return None
+    
+    # remove "bearer" text from token
+    token = token[7:]
+    
+    try:
+        decoded_token = auth.verify_id_token(token)
+
+    except auth.InvalidIdTokenError:  
+        # Token is invalid, expired or revoked. Force user to login.
+        return None
+    
+    return decoded_token['uid']
+
+
+@app.route("/getuseraccount", methods=["GET"])
+def getuseraccount():
+    user_id = verify_token(request)
+    if not user_id:
+        make_response(jsonify(message="Invalid token"), 401)
+
+    print(user_id)
+    return make_response(get_user_accounts(user_id))
 
 
 @app.route("/createuseraccount", methods=["POST"],)
 def createuseraccount():
+    user_id = verify_token(request)
+    if not user_id:
+        make_response(jsonify(message="Invalid token"), 401)
+
     json_data = request.get_json()
+    print(request.headers)
 
-    return make_response(create_user_account(json_data))
-
-
-@app.route("/deleteuseraccount/<userID>", methods=["DELETE"])
-def deleteuseraccount(userID):
-    if str.isdigit(userID):
-        return make_response(delete_user_account(userID))
-    
-    message = jsonify(message="Invalid parameters")
-    return make_response(message, 422)
+    return make_response(create_user_account(user_id, json_data))
 
 
-@app.route("/updateuseraccount/<userID>", methods=["PUT"])
-def updateuseraccount(userID):
-    if str.isdigit(userID):
-        json_data = request.get_json()
-        return make_response(update_user_account(userID, json_data))
-    
-    message = jsonify(message="Invalid parameters")
-    return make_response(message, 422)
+@app.route("/deleteuseraccount", methods=["DELETE"])
+def deleteuseraccount():
+    user_id = verify_token(request)
+    if not user_id:
+        make_response(jsonify(message="Invalid token"), 401)
+
+    return make_response(delete_user_account(user_id))
+
+
+@app.route("/updateuseraccount", methods=["PUT"])
+def updateuseraccount():
+    user_id = verify_token(request)
+    if not user_id:
+        make_response(jsonify(message="Invalid token"), 401)
+
+    json_data = request.get_json()
+    return make_response(update_user_account(user_id, json_data))
 
 #---------------------------------------------------------------------------------------
 
 # Bank Account - related methods
 
-@app.route("/getbankaccount/<userID>", methods=["GET"])
-def getbankaccount(userID):
-    if str.isdigit(userID):
-        return make_response(get_bank_account(userID))
-    
-    message = jsonify(message="Invalid parameters")
-    return make_response(message, 422)
+@app.route("/createbankaccount", methods=["POST"])
+def createbankaccount():
+    user_id = verify_token(request)
+    if not user_id:
+        make_response(jsonify(message="Invalid token"), 401)
+
+    json_data = request.get_json()
+
+    return make_response(create_bank_account(user_id, json_data))
 
 
-#UPDATE BELOW SO THAT IT USES BOTH userID and AccountNumber TO GET THE SPECIFIC BANK ACCOUNT.
+@app.route("/getbankaccount", methods=["GET"])
+def getbankaccount():
+    user_id = verify_token(request)
+    if not user_id:
+        make_response(jsonify(message="Invalid token"), 401)
+        
+    return make_response(get_bank_account(user_id))
+
 
 @app.route("/getsinglebankaccount/<accountnumber>", methods=["GET"])
 def getsinglebankaccount(accountnumber):
-    if str.isdigit(accountnumber):
-        return make_response(get_single_bank_account(accountnumber))
+    user_id = verify_token(request)
+    if not user_id:
+        make_response(jsonify(message="Invalid token"), 401)
     
-    message = jsonify(message="Invalid parameters")
-    return make_response(message, 422)
+    return make_response(get_single_bank_account(accountnumber))
+    
 
 @app.route("/deletebankaccount/<accountnumber>", methods=["DELETE"])
 def deletebankaccount(accountnumber):
-    if str.isdigit(accountnumber):
-        return make_response(delete_bank_account(accountnumber))
+    user_id = verify_token(request)
+    if not user_id:
+        make_response(jsonify(message="Invalid token"), 401)
     
-    message = jsonify(message="Invalid parameters")
-    return make_response(message, 422)
+    return make_response(delete_bank_account(accountnumber))
 
 
 @app.route("/updatebankaccount/<accountnumber>", methods=["PUT"])
 def updatebankaccount(accountnumber):
-    if str.isdigit(accountnumber):
-        json_data = request.get_json()
-        return make_response(update_bank_account(accountnumber, json_data))
-    
-    message = jsonify(message="Invalid parameters")
-    return make_response(message, 422)
+    user_id = verify_token(request)
+    if not user_id:
+        make_response(jsonify(message="Invalid token"), 401)
+
+    json_data = request.get_json()
+    return make_response(update_bank_account(accountnumber, json_data))
 
 
 if __name__ == "__main__":
