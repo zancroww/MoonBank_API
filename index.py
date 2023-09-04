@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, make_response
 from firebase_admin import auth, credentials, initialize_app
+import os
 
 from GetUserAccountDetails import get_user_accounts
 from CreateUserAccount import create_user_account 
@@ -23,7 +24,7 @@ config = {
     "databaseURL": "",
 }
 
-cred = credentials.Certificate("roi-team-cloud-9-firebase-adminsdk-90wsy-2009cb73b6.json")
+cred = credentials.Certificate(os.environ["adminsdk-key"])
 default_app = initialize_app(cred, options=config)
 
 
