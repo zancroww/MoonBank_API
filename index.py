@@ -23,7 +23,7 @@ config = {
     "databaseURL": "",
 }
 
-cred = credentials.Certificate(r"C:\Users\evanh\Downloads\roi-team-cloud-9-firebase-adminsdk-90wsy-2009cb73b6.json")
+cred = credentials.Certificate("roi-team-cloud-9-firebase-adminsdk-90wsy-2009cb73b6.json")
 default_app = initialize_app(cred, options=config)
 
 
@@ -50,7 +50,7 @@ def verify_token(request):
 def getuseraccount():
     user_id = verify_token(request)
     if not user_id:
-        make_response(jsonify(message="Invalid token"), 401)
+        return make_response(jsonify(message="Invalid token"), 401)
 
     print(user_id)
     return make_response(get_user_accounts(user_id))
@@ -60,7 +60,7 @@ def getuseraccount():
 def createuseraccount():
     user_id = verify_token(request)
     if not user_id:
-        make_response(jsonify(message="Invalid token"), 401)
+        return make_response(jsonify(message="Invalid token"), 401)
 
     json_data = request.get_json()
     print(request.headers)
@@ -72,7 +72,7 @@ def createuseraccount():
 def deleteuseraccount():
     user_id = verify_token(request)
     if not user_id:
-        make_response(jsonify(message="Invalid token"), 401)
+        return make_response(jsonify(message="Invalid token"), 401)
 
     return make_response(delete_user_account(user_id))
 
@@ -81,7 +81,7 @@ def deleteuseraccount():
 def updateuseraccount():
     user_id = verify_token(request)
     if not user_id:
-        make_response(jsonify(message="Invalid token"), 401)
+        return make_response(jsonify(message="Invalid token"), 401)
 
     json_data = request.get_json()
     return make_response(update_user_account(user_id, json_data))
@@ -94,7 +94,7 @@ def updateuseraccount():
 def createbankaccount():
     user_id = verify_token(request)
     if not user_id:
-        make_response(jsonify(message="Invalid token"), 401)
+        return make_response(jsonify(message="Invalid token"), 401)
 
     json_data = request.get_json()
 
@@ -105,7 +105,7 @@ def createbankaccount():
 def getbankaccount():
     user_id = verify_token(request)
     if not user_id:
-        make_response(jsonify(message="Invalid token"), 401)
+        return make_response(jsonify(message="Invalid token"), 401)
         
     return make_response(get_bank_account(user_id))
 
@@ -114,7 +114,7 @@ def getbankaccount():
 def getsinglebankaccount(accountnumber):
     user_id = verify_token(request)
     if not user_id:
-        make_response(jsonify(message="Invalid token"), 401)
+        return make_response(jsonify(message="Invalid token"), 401)
     
     return make_response(get_single_bank_account(accountnumber))
     
@@ -123,7 +123,7 @@ def getsinglebankaccount(accountnumber):
 def deletebankaccount(accountnumber):
     user_id = verify_token(request)
     if not user_id:
-        make_response(jsonify(message="Invalid token"), 401)
+        return make_response(jsonify(message="Invalid token"), 401)
     
     return make_response(delete_bank_account(accountnumber))
 
@@ -132,7 +132,7 @@ def deletebankaccount(accountnumber):
 def updatebankaccount(accountnumber):
     user_id = verify_token(request)
     if not user_id:
-        make_response(jsonify(message="Invalid token"), 401)
+        return make_response(jsonify(message="Invalid token"), 401)
 
     json_data = request.get_json()
     return make_response(update_bank_account(accountnumber, json_data))

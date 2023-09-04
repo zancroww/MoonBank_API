@@ -30,6 +30,7 @@ def create_user_account(user_id, user_account_json):
         conn.commit()
 
     except Exception as e:
+            print(e)
             return json.dumps(f"Server Error {e}"), 500
 
     finally:

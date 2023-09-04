@@ -1,25 +1,4 @@
-# import pymysql
-
-# # "from mysql import connector" instead??
-
-# def open_connection():
-#     try:
-#         conn = pymysql.connect(
-#         host='localhost',
-#         user='root', 
-#         password = "root", # edit to import from google secrets!
-#         db='moonbank',
-#         )
-#     except pymysql.MySQLError as e:
-#         raise e # What to do with error?
-
-#     return conn
-
-# def close_connection(conn):
-#     conn.close()
-
-
-from google.cloud.sql.connector import Connector, IPTypes
+from google.cloud.sql.connector import Connector
 import pymysql
 import os
 

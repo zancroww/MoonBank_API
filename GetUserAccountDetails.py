@@ -5,6 +5,7 @@ import json
 def get_user_accounts(userID):
     try:
         conn = open_connection()
+        print(userID)
         with conn.cursor() as cursor:
             select_statement = "SELECT UserID, LastName, FirstName, CAST(DoB AS CHAR) as DoB, Email, PhoneNumber, NINumber, FirstLine, Postcode FROM useraccount WHERE UserID=%s"
             cursor.execute(select_statement, userID)
@@ -17,8 +18,7 @@ def get_user_accounts(userID):
             json_data = dict(zip(row_headers, result))     
 
     except Exception as e:
-        print(e)
-        return json.dumps(f"Server  {e}"), 500
+        return json.dumps(f"Server error {e}"), 500
     
     finally:
         close_connection(conn)
