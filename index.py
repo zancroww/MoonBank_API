@@ -24,8 +24,7 @@ config = {
     "databaseURL": "",
 }
 
-cred = credentials.Certificate(os.environ["adminsdk-key"])
-default_app = initialize_app(cred, options=config)
+default_app = initialize_app(options=config)
 
 
 def verify_token(request):
