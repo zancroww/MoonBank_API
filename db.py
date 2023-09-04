@@ -5,11 +5,10 @@ import os
 # initialize Connector object
 connector = Connector()  
 
-for key, value in os.environ.items():
-    print(key, value)
-
 # function to return the database connection
 def open_connection() -> pymysql.connections.Connection:
+    for key, value in os.environ.items():
+        print(key, value)   
     conn: pymysql.connections.Connection = connector.connect(
         os.environ["DB_INSTANCE_NAME"],
         "pymysql",
