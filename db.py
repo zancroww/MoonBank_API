@@ -3,7 +3,10 @@ import pymysql
 import os
 
 # initialize Connector object
-connector = Connector()    
+connector = Connector()  
+
+for key, value in os.environ.items():
+    print(key, value)
 
 # function to return the database connection
 def open_connection() -> pymysql.connections.Connection:
