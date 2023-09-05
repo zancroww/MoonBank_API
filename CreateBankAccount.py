@@ -7,16 +7,22 @@ from datetime import date
 def create_bank_account(user_id, user_account_json):
     try:
         # extract json
-        overdraft = user_account_json["overdraft"]
-        overdraft_limit = user_account_json["overdraft_limit"]
-        balance = user_account_json["balance"]
-        user_id2 = user_account_json["user_id2"]
-        account_type = user_account_json["account_type"]
+        overdraft = user_account_json["Overdraft"]
+        
+        balance = randint(0, 10000)
+        user_id2 = "empty"
+        account_type = user_account_json["Accounttype"]
 
         # generate details
         credit_score = randint(0, 1000)
         sort_code = randint(111111, 999999)
         date_started = date.today()
+        if overdraft == "1":
+            overdraft_limit = randint(100,500)
+        else:
+            overdraft_limit = "0"
+        
+        
 
         conn = open_connection()
         account_number = generate_account_number(conn)
