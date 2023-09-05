@@ -38,7 +38,7 @@ def verify_token(request):
     print(token)
     
     try:
-        decoded_token = auth.verify_id_token(token)
+        decoded_token = auth.verify_session_cookie(token)
 
     except auth.InvalidIdTokenError:  
         # Token is invalid, expired or revoked. Force user to login.

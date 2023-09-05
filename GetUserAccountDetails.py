@@ -5,7 +5,6 @@ import json
 def get_user_accounts(userID):
     try:
         conn = open_connection()
-        print(userID)
         with conn.cursor() as cursor:
             select_statement = "SELECT UserID, LastName, FirstName, CAST(DoB AS CHAR) as DoB, Email, PhoneNumber, NINumber, FirstLine, Postcode FROM useraccount WHERE UserID=%s"
             cursor.execute(select_statement, userID)
