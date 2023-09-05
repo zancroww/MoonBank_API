@@ -35,6 +35,7 @@ def verify_token(request):
     
     # remove "bearer" text from token
     token = token[7:]
+    print(token)
     
     try:
         decoded_token = auth.verify_id_token(token)

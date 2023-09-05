@@ -8,7 +8,6 @@ def create_bank_account(user_id, user_account_json):
     try:
         # extract json
         overdraft = user_account_json["Overdraft"]
-        
         balance = randint(0, 10000)
         user_id2 = "empty"
         account_type = user_account_json["Accounttype"]
@@ -20,9 +19,7 @@ def create_bank_account(user_id, user_account_json):
         if overdraft == "1":
             overdraft_limit = randint(100,500)
         else:
-            overdraft_limit = "0"
-        
-        
+            overdraft_limit = "0"        
 
         conn = open_connection()
         account_number = generate_account_number(conn)
