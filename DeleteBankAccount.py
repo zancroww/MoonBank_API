@@ -10,6 +10,7 @@ def delete_bank_account(accountnumber):
             query = "DELETE FROM BankAccount WHERE AccountNumber =%s"
             cursor.execute(query, accountnumber)   
             affected_rows = conn.affected_rows()
+            print(query)
 
             if affected_rows == 0:
                 json.dumps("No rows deleted: Incorrect ID or deleted previously"), 404
@@ -17,6 +18,7 @@ def delete_bank_account(accountnumber):
         conn.commit()
 
     except Exception as e:
+        print(e)
         return json.dumps("Server Error"), 500
 
     finally:
