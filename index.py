@@ -123,6 +123,7 @@ def getsinglebankaccount(accountnumber):
 @app.route("/deletebankaccount/<accountnumber>", methods=["DELETE"])
 def deletebankaccount(accountnumber):
     user_id = verify_token(request)
+    print(accountnumber)
     if not user_id:
         return make_response(jsonify(message="Invalid token"), 401)
     
