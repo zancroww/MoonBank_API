@@ -10,11 +10,13 @@ def get_bank_account(userID):
             cursor.execute(select_statement, userID)
             row_headers = [x[0] for x in cursor.description]  
             result = cursor.fetchall()
+            print(result)
 
             if result is None:
                 return json.dumps("Bank Account not found"), 404
 
-            json_data = dict(zip(row_headers, result))     
+            json_data = dict(zip(row_headers, result))  
+            print(json_data)   
 
     except Exception as e:
         print(e)
