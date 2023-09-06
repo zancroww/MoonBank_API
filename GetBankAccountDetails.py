@@ -9,7 +9,7 @@ def get_bank_account(userID):
             select_statement = "SELECT UserID, CreditScore, AccountNumber, SortCode, Balance, InterestRate, InterestLimit, Overdraft, OverdraftLimit, CAST(DateStarted AS CHAR) as DateStarted, UserID2, AccountType FROM bankaccount WHERE UserID=%s"
             cursor.execute(select_statement, userID)
             row_headers = [x[0] for x in cursor.description]  
-            result = cursor.fetchone()
+            result = cursor.fetchall()
 
             if result is None:
                 return json.dumps("Bank Account not found"), 404
