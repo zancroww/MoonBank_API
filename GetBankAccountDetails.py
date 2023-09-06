@@ -6,7 +6,7 @@ def get_bank_account(userID):
     try:
         conn = open_connection()
         with conn.cursor() as cursor:
-            select_statement = "SELECT UserID, CreditScore, AccountNumber, SortCode, Balance, InterestRate, InterestLimit, Overdraft, OverdraftLimit, CAST(DateStarted AS CHAR) as DateStarted, UserID2, AccountType FROM BankAccount WHERE UserID=%s"
+            select_statement = "SELECT UserID, CreditScore, AccountNumber, SortCode, Balance, InterestRate, InterestLimit, Overdraft, OverdraftLimit, CAST(DateStarted AS CHAR) as DateStarted, UserID2, AccountType FROM bankaccount WHERE UserID=%s"
             cursor.execute(select_statement, userID)
             row_headers = [x[0] for x in cursor.description]  
             result = cursor.fetchone()
