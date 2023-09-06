@@ -14,9 +14,21 @@ def get_bank_account(userID):
 
             if result is None:
                 return json.dumps("Bank Account not found"), 404
+            
+            counter = 0
+            json_data = {}
+            
+            for columnname in row_headers:
+                temporarylist = []
+                for resultrow in result:
+                    temporarylist.append(resultrow[counter])
+                json_data[columnname] = temporarylist
+                    
+                    
+            print(json_data)
 
-            json_data = dict(zip(row_headers, result))  
-            print(json_data)   
+            #json_data = dict(zip(row_headers, result))  
+            #print(json_data)   
 
     except Exception as e:
         print(e)
