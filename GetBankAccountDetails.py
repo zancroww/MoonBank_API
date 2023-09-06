@@ -23,6 +23,7 @@ def get_bank_account(userID):
                 for resultrow in result:
                     temporarylist.append(resultrow[counter])
                 json_data[columnname] = temporarylist
+                counter+=1
                     
                     
             print(json_data)
