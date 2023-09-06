@@ -17,6 +17,7 @@ def get_bank_account(userID):
             json_data = dict(zip(row_headers, result))     
 
     except Exception as e:
+        print(e)
         return json.dumps("Server error"), 500
     
     finally:
