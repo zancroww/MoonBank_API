@@ -7,7 +7,7 @@ def delete_bank_account(accountnumber):
     try:
         conn = open_connection()
         with conn.cursor() as cursor:
-            query = "DELETE FROM BankAccount WHERE AccountNumber =%s"
+            query = "DELETE FROM bankaccount WHERE AccountNumber =%s"
             cursor.execute(query, accountnumber)   
             affected_rows = conn.affected_rows()
             print(query)
